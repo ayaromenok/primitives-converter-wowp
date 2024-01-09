@@ -101,7 +101,7 @@ class Import_From_ModelFile(bpy.types.Operator, ImportHelper):
     debug_mode : bpy.props.BoolProperty( #Checkbox
         name = 'Debug Mode',
         description = 'Will display extra info in the System Console',
-        default = False
+        default = True
     )
 
     disp_x : bpy.props.FloatProperty( #Float box
