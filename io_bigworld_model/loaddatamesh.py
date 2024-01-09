@@ -102,7 +102,8 @@ class LoadDataMesh:
         nIndices = unpack('<I', self.__pfile.read(4))[0] #Number of indices
         nTriangleGroups = unpack('<I', self.__pfile.read(4))[0] #Number of groups, should be 1
         if nTriangleGroups != 1:
-            raise Exception("More than one primitives group")
+#            raise Exception("More than one primitives group")
+            print("\t[me]: More than one primitives group",  nTriangleGroups)
         self.PrimitiveGroups = [] #List the TriangleGroups, should only have one element
         if 'list32' in indexFormat: #Index format
             UINT_LEN = 4
