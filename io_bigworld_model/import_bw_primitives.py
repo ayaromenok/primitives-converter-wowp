@@ -15,11 +15,16 @@ from mathutils import Vector
 #####################################################################
 # Get empty nodes
 
-def get_Empty_by_nodes(elem, empty_obj = None):
+def get_Empty_by_nodes(elem, empty_obj = None, object_name="noName"):
     if (elem.find('identifier') is None) or (elem.find('transform') is None): #If not an node, skip
         return None
 
     identifier = elem.find('identifier').text.strip()
+    sc_root_name = 'Scene Root'
+    print ("\t[me] current node:", identifier)
+    if identifier == sc_root_name:
+        print("\t[me] /ToDo: Better move it to obj_name)", object_name)
+        identifier = object_name #rename scene root to object name - but batter to move to node with such name if it exist
     row0 = asVector(elem.find('transform').find('row0').text) #Scale x(only the first in the tuple)
     row1 = asVector(elem.find('transform').find('row1').text) #Scale z(only the second in the tuple)
     row2 = asVector(elem.find('transform').find('row2').text) #Scale y(only the third in the tuple)
@@ -54,6 +59,8 @@ class BigWorldModelLoader:
     def load_from_file(self, model_filepath, import_empty, debug_mode, displacement, rotation, scale):
         model_dir = os.path.dirname(model_filepath) #Directory of the file
         model_filename = os.path.basename(model_filepath) #Name of the file
+
+        object_name =  os.path.splitext(model_filename)[0]
         print("\t[me] model name:", os.path.splitext(model_filename)[0])
         visual_filename = '%s.visual' % os.path.splitext(model_filename)[0] #Name of the visual file
         primitives_filename = '%s.primitives' % os.path.splitext(model_filename)[0] #Name of the primitives file
@@ -152,7 +159,7 @@ class BigWorldModelLoader:
                     
                     if import_empty: #Organizes the objects and empties
                         if self.root_empty_ob is None:
-                            self.root_empty_ob = get_Empty_by_nodes(visual.findall('node')[0]) #Set the scene root
+                            self.root_empty_ob = get_Empty_by_nodes(visual.findall('node')[0], object_name = object_name) #Set the scene root
                         if self.root_empty_ob is not None:
                             ob.parent = self.root_empty_ob #Set the parent of the object as the scene root
                     
