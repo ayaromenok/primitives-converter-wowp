@@ -54,7 +54,7 @@ class BigWorldModelLoader:
     def load_from_file(self, model_filepath, import_empty, debug_mode, displacement, rotation, scale):
         model_dir = os.path.dirname(model_filepath) #Directory of the file
         model_filename = os.path.basename(model_filepath) #Name of the file
-
+        print("\t[me] model name:", os.path.splitext(model_filename)[0])
         visual_filename = '%s.visual' % os.path.splitext(model_filename)[0] #Name of the visual file
         primitives_filename = '%s.primitives' % os.path.splitext(model_filename)[0] #Name of the primitives file
         
@@ -73,6 +73,7 @@ class BigWorldModelLoader:
                     vres_name = renderSet.find('geometry/vertices').text.strip() #Vertices group name
                     pres_name = renderSet.find('geometry/primitive').text.strip() #Indices group name
                     mesh_name = os.path.splitext(vres_name)[0] #Name of object
+                    print("\t[me] mesh_name: ", mesh_name)
                     bmesh = bpy.data.meshes.new(mesh_name) #Create new blender object with name from visual
 
                     dataMesh = LoadDataMesh(primitives_filepath, vres_name, pres_name, debug_mode) #Compiles the vertices and indices into lists
@@ -105,7 +106,11 @@ class BigWorldModelLoader:
                             uv_layer[li].uv = dataMesh.uv_list[vi] #Map the vertex with each index
                             
                     _identifier = renderSet.findall('geometry/primitiveGroup')[0].find('material/identifier').text.strip() #Material identifier
-                    material = bpy.data.materials.new(_identifier) #Create a new material
+                    material = bpy.data.materials.get(_identifier) #check if material already exist
+                    if material:
+                        print("\t[me] material already exits: ", _identifier)
+                    else:
+                        material = bpy.data.materials.new(_identifier) #Create a new material
                     material.Vertex_Format = dataMesh.vertices_type.strip() #Save the vertex format for export
                     if renderSet.findall('geometry/primitiveGroup')[0].find('material/mfm')!=None: #If mfm path exists
                         material.BigWorld_mfm_Path = renderSet.findall('geometry/primitiveGroup')[0].find('material/mfm').text.strip() #Save the mfm format for export
