@@ -20,12 +20,6 @@ def get_Empty_by_nodes(elem, empty_obj = None, object_name="noName"):
         return None
 
     identifier = elem.find('identifier').text.strip()
-    sc_root_name = 'Scene Root'
-    print ("\t[me] current node name:", identifier)
-    if identifier == sc_root_name:
-        print("\t[me] /ToDo: Better move it to obj_name)", object_name)
-        identifier = "HP_"+object_name[:-3] #rename scene root to object name - but batter to move to node with such name if it exist
-        print("\t[me]: new obj name", identifier)
 
     row0 = asVector(elem.find('transform').find('row0').text) #Scale x(only the first in the tuple)
     row1 = asVector(elem.find('transform').find('row1').text) #Scale z(only the second in the tuple)
@@ -34,12 +28,19 @@ def get_Empty_by_nodes(elem, empty_obj = None, object_name="noName"):
     scale = Vector( (row0.x, row2.z, row1.y) ) #Form "tuple" of scale
     location = row3.xzy #Form "tuple" of location
 
-#    ob = bpy.data.objects.new(identifier, None) #Create new empty object
-    ob = bpy.data.objects.get(identifier) #check if object already exist
+    sc_root_name = 'Scene Root'
+    identifier_HP = 'noIdentifier'
+    print ("\t[me] current node name:", identifier)
+    if identifier == sc_root_name:
+        identifier_HP = "HP_"+object_name[:-3] #rename scene root to object name - but batter to move to node with such name if it exist
+        print("\t[me] new obj name", identifier_HP)
+
+    ob = bpy.data.objects.get(identifier_HP) #check if object already exist
     if ob:
-        print("\t[me] obj already exits: ", identifier)
-        print("\t[me] obj name: ", object_name, "\n")
-        ob.name = identifier
+        print("\t[me] obj already exits: ", ob.name)
+        ob.name = object_name
+        print("\t[me] obj renamed to: ", ob.name)
+
     else:
         print("\t[me] obj create new object: ", identifier, "\n")
         ob = bpy.data.objects.new(identifier, None) #Create new empty object
