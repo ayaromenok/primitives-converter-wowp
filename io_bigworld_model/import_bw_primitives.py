@@ -21,10 +21,12 @@ def get_Empty_by_nodes(elem, empty_obj = None, object_name="noName"):
 
     identifier = elem.find('identifier').text.strip()
     sc_root_name = 'Scene Root'
-    print ("\t[me] current node:", identifier)
+    print ("\t[me] current node name:", identifier)
     if identifier == sc_root_name:
         print("\t[me] /ToDo: Better move it to obj_name)", object_name)
-        identifier = object_name #rename scene root to object name - but batter to move to node with such name if it exist
+        identifier = "HP_"+object_name[:-3] #rename scene root to object name - but batter to move to node with such name if it exist
+        print("\t[me]: new obj name", identifier)
+
     row0 = asVector(elem.find('transform').find('row0').text) #Scale x(only the first in the tuple)
     row1 = asVector(elem.find('transform').find('row1').text) #Scale z(only the second in the tuple)
     row2 = asVector(elem.find('transform').find('row2').text) #Scale y(only the third in the tuple)
@@ -32,14 +34,21 @@ def get_Empty_by_nodes(elem, empty_obj = None, object_name="noName"):
     scale = Vector( (row0.x, row2.z, row1.y) ) #Form "tuple" of scale
     location = row3.xzy #Form "tuple" of location
 
-    ob = bpy.data.objects.new(identifier, None) #Create new empty object
+#    ob = bpy.data.objects.new(identifier, None) #Create new empty object
+    ob = bpy.data.objects.get(identifier) #check if object already exist
+    if ob:
+        print("\t[me] obj already exits: ", identifier)
+        print("\t[me] obj name: ", object_name, "\n")
+        ob.name = identifier
+    else:
+        print("\t[me] obj create new object: ", identifier, "\n")
+        ob = bpy.data.objects.new(identifier, None) #Create new empty object
+        ob.scale = scale #Set scale
+        ob.location = location #Set location
+        if empty_obj is not None: #If parent parameter exists
+            ob.parent = empty_obj #Set parent
 
-    ob.scale = scale #Set scale
-    ob.location = location #Set location
-    if empty_obj is not None: #If parent parameter exists
-        ob.parent = empty_obj #Set parent
-
-    bpy.context.scene.collection.objects.link(ob) #Put into the scene collection
+        bpy.context.scene.collection.objects.link(ob) #Put into the scene collection
     ob.hide_set(False) #Show empties
     
     for node in elem.findall('node'):
@@ -114,9 +123,9 @@ class BigWorldModelLoader:
                             
                     _identifier = renderSet.findall('geometry/primitiveGroup')[0].find('material/identifier').text.strip() #Material identifier
                     material = bpy.data.materials.get(_identifier) #check if material already exist
-                    if material:
-                        print("\t[me] material already exits: ", _identifier)
-                    else:
+                    if not material:
+#                        print("\t[me] material already exits: ", _identifier)
+#                    else:
                         material = bpy.data.materials.new(_identifier) #Create a new material
                     material.Vertex_Format = dataMesh.vertices_type.strip() #Save the vertex format for export
                     if renderSet.findall('geometry/primitiveGroup')[0].find('material/mfm')!=None: #If mfm path exists
