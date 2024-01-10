@@ -1,6 +1,14 @@
-# UPDATE: This project will not be maintained anymore. This is because Wargaming is now using .geometry and will remove .primitive functionality. I have created a new repository for my .geometry converter project
+## Update 
+This version is specialized to import World of Warplanes models(which still use *.primitives from original BigWorld engine) to Blender 2.91
+Difference from original primitive converter:
+  * ignore more than one primitive group (typical for LOD0-LOD2)
+  * use material if it's already exist in scene
+  * set hierarchy correctly
+  * set objects position/rotations/scale correctly (i.e. not required manual assembly of airplane)
+  
 
-# BigWorld Model Converter(.primitives)
+
+## BigWorld Model Converter(.primitives)
 This is a Blender addon designed to be able to import and export World of Warships' .primitives+.visual files, designed for mod authors.
 
 ## How to Add to Blender-Windows?
@@ -16,3 +24,6 @@ This is a Blender addon designed to be able to import and export World of Warshi
 
 ## How to Add to Blender-MacOS/Linux?
 If you use MacOS or Linux, take a look at [this documentation](https://docs.blender.org/manual/en/latest/editors/preferences/addons.html) to install an addon from the application.
+
+## Original update from author ShadowBandit
+UPDATE: This project will not be maintained anymore. This is because Wargaming is now using .geometry and will remove .primitive functionality. I have created a new repository for my .geometry converter project
