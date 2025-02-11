@@ -1,16 +1,16 @@
 ''' SkepticalFox 2015-2018 '''
 ''' + ShadowyBandit 2020 '''
-
+''' + ayaromenok 2024-2025 '''
 #####################################################################
 # Addon Description
 
 bl_info = {
     'name': 'BigWorld Model (.primitives)',
-    'author': 'SkepticalFox+ShadowyBandit',
-    'version': (1, 0, 1),
-    'blender': (2, 80, 0),
+    'author': 'SkepticalFox+ShadowyBandit+ayaromenok',
+    'version': (1, 0, 3),
+    'blender': (2, 9, 1),
     'location': 'File > Import-Export',
-    'description': 'World of Warships BigWorld Model Import/Export plugin',
+    'description': 'World of Warplanes BigWorld Model Import/Export plugin',
     'warning': 'In progress',
     'wiki_url': 'http://www.koreanrandom.com/forum/topic/28240-/',
     'category': 'Import-Export',
