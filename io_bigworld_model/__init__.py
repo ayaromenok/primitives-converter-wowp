@@ -8,7 +8,7 @@ bl_info = {
     'name': 'BigWorld Model (.primitives)',
     'author': 'SkepticalFox+ShadowyBandit+ayaromenok',
     'version': (1, 0, 3),
-    'blender': (2, 9, 1),
+    'blender': (2, 91, 0),
     'location': 'File > Import-Export',
     'description': 'World of Warplanes BigWorld Model Import/Export plugin',
     'warning': 'In progress',
