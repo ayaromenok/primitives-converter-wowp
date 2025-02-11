@@ -3,6 +3,8 @@
 ''' + ayaromenok 2024-2025 '''
 #####################################################################
 # Addon Description
+# only old BigWorld models (still used in World of WarPlanes) is supported
+# only import is working (I don't need export)
 
 bl_info = {
     'name': 'BigWorld Model (.primitives)',
@@ -57,10 +59,10 @@ def unregister():
 # Menu operators
 
 def menu_func_import(self, context):
-    self.layout.operator('import.model', text = 'World of Warships BigWorld Model (.primitives+.visual)')
+    self.layout.operator('import.model', text = 'World of Warplanes (.primitives+.visual)')
 
 def menu_func_export(self, context):
-    self.layout.operator('export.model', text='World of Warships BigWorld Model (.primitives+.visual+.temp_model)')
+    self.layout.operator('export.model', text='World of Warplanes (.primitives+.visual+.temp_model)')
 
 #####################################################################
 # BigWorld Material Panel
